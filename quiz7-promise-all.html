@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1" cellpadding="9" cellspacing="0">
+        <tbody>
+            <tr>
+                <th>Attribute</th>
+                <th>Value Product 1</th>
+                <th>Value Product 2</th>
+                <th>Value Product 3</th>
+            </tr>
+            
+            <tr>           
+            <td>Id:</td>    
+            <td id="id1"></td>
+            <td id="id2"></td>
+            <td id="id3"></td>
+            </tr>
+
+        <tr>
+            <td>Name :</td>
+            <td id="name1"></td>
+            <td id="name2"></td>
+            <td id="name3"></td>  
+        </tr>
+
+        <tr>
+            <td>Price :</td>
+            <td id="price1"></td>
+            <td id="price2"></td>
+            <td id="price3"></td> 
+        </tr>
+        </tbody>
+    </table>
+    
+  
+    <script>
+
+        function getProduct(product) {
+            return new Promise(function (resolve, reject) {
+
+                const ajax = new XMLHttpRequest();
+                ajax.open("GET", `api/${product}.json`);
+                ajax.onload = function () {
+                    if (ajax.status === 200) {
+                        resolve(ajax.responseText);
+                    } else {
+                        reject(`Error Get Product with response : ${ajax.status}`);
+                }
+            };
+                ajax.send();
+
+
+            });
+        }
+        
+       
+        const promise = Promise.all([
+            getProduct("product1"),
+            getProduct("product2"),
+            getProduct("product3")
+        ]);
+
+        promise.then(function (products) {
+            console.info(products);
+            // document.getElementById("namaproduct1").textContent = JSON.parse(products[0].name;
+            const json1 = (JSON.parse(products[0]));
+            const json2 = (JSON.parse(products[1]));
+            const json3 = (JSON.parse(products[2]));
+           
+            document.getElementById("id1").textContent   =json1.id;
+            document.getElementById("name1").textContent   =json1.name;
+            document.getElementById("price1").textContent   =json1.price;
+
+            document.getElementById("id2").textContent   =json2.id;
+            document.getElementById("name2").textContent   =json2.name;
+            document.getElementById("price2").textContent   =json2.price;
+
+            document.getElementById("id3").textContent   =json3.id;
+            document.getElementById("name3").textContent   =json3.name;
+            document.getElementById("price3").textContent   =json3.price;
+        })
+        .catch(function (errors){
+            console.info(errors);
+        })
+  
+    </script>
+</body>
+</html>

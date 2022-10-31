@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quiz9 Wheater</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+	<div class="container mt-3">
+		 <h1>Aplikasi Pengambilan Data Cuaca (Open Wheater Map)</h1>
+        <br>
+		<form class="row">
+			<div class="mb-3 col-md-6">
+			    <label class="form-label">Latitude</label>
+			    <input type="text" class="form-control" id="name">
+			</div>
+			<div class="mb-3 col-md-6">
+			    <label class="form-label">Longitude</label>
+			    <input type="text" class="form-control" id="name">
+			</div>
+			<div class="mb-3 col-md-6">
+			    <label class="form-label">APP ID Open Wheater Map</label>
+			    <input type="email" class="form-control" id="email">
+			</div>
+			<div class="mb-3 col-md-6">
+			    <label class="form-label">Lat & Long ambil dari google maps</label><br>
+			    <input type="button" class="btn btn-primary col-12" id="register" value="Ambil Data">
+			</div>
+		</form>
+		<h1 id="putHere"></h1>
+	</div>
+<body>
+    <div class="container mt-3">
+        <h1>Data Cuaca Daerah : <span id="name_city"></span></h1>
+        <table class="table table-hover table-bordered table-striped">
+            <thead>
+                <th>No</th>
+                <th>Date Time</th>
+                <th>Wheater</th>
+                <th>Wheater Desc</th>
+                <th>Wind Spend</th>
+                <th>Temperature</th>
+                <th>Humidity</th>
+                <th>Rain</th>
+                <th>Clouds</th>
+            </thead>
+            <tbody id="myTbody">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+
+        function getWeather() {
+            const request = new Request("https://api.openweathermap.org/data/2.5/forecast?lat=-7.7214217&lon=110.4138864&appid=ab0072a2ae28523c5680187db1669d43", {
+                method: "GET"
+            });
+            const response = fetch(request);
+            return response.then((response) => response.json());
+        }
+
+        async function getResponseWeather() {
+            try {
+                return await getWeather();
+            } catch (e) {
+                return "Data Not Found";
+            } finally { }
+        }
+
+        getResponseWeather()
+            .then(function (data) {
+                console.info(data);
+                console.info(data.city);
+                console.info(data.city.name);
+                console.info(data.list);
+
+                document.getElementById("name_city").textContent = data.city.name;
+
+                let no = 1;
+
+                // for (v of data.list) {
+                //     console.info(v);
+                //     // console.info(v.rain.3h);
+                //     // console.info(Object.values(v.rain)[0]);
+
+                //     if (typeof v.rain !== 'undefined') {
+                //         var rain = Object.values(v.rain)[0];
+                //     } else {
+                //         var rain = "no data";
+                //     }
+
+                //     console.info(rain);
+
+                //     // code taruh data ke tr / row table
+            
+           
+            let text = "<table border='1'>"
+            for (let v of data.list) {
+                console.info(v);
+                if (typeof v.rain !== 'undefined') {
+                    var rain = Object.values(v.rain) [0];
+                } else {
+                    var rain = "no data";
+                }
+
+                console.info(rain);
+                // for (var i = 1; i < 1; i++) {
+                //     console.info(i)};
+                text += "<tr>"
+                text += "<td>" + no + "</td>";  //no
+                text += "<td>" + v.dt_txt + "</td>";
+                text += "<td>" + v.weather[0].main + "</td>"; //
+                text += "<td>" + v.weather[0].description + "</td>"; //desc
+                text += "<td>" + v.wind.speed + "</td>"; 
+                text += "<td>" + v.main.temp + "</td>"; 
+                text += "<td>" + v.main.humidity + "</td>"; 
+                text += "<td>" + (rain)+ "</td>"; //
+                text += "<td>" + v.clouds.all + "</td>"; 
+                text += "</tr>"
+
+                text += "</table>"
+                
+                no++;
+            }
+
+            document.getElementById('myTbody').innerHTML = text;
+
+            }
+        )
+    
+            
+    </script>
+</body>
+
+</html>

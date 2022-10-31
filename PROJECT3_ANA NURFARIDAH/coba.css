@@ -1,0 +1,51 @@
+
+
+.zoom-effect {  
+  width: 100%;
+  height: 200px;
+  margin: 0 auto;
+  overflow: hidden;  
+}
+
+.img-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+ 
+.kotak img {
+  -webkit-transition: 0.4s ease;
+  transition: 0.4s ease;
+  
+}
+ 
+.zoom-effect:hover .kotak img {
+  -webkit-transform: scale(8);
+  transform: scale(1.08);
+}
+
+
+.wrapper {
+  width: 200px;
+  margin: 10px;
+}
+
+.zoom-effect {  
+  width: 100%;
+  height: 200px;
+  margin: 0 auto;
+  overflow: hidden;  
+}
+ 
+.kotak img {
+  -webkit-transition: 0.4s ease;
+  transition: 0.4s ease;
+  
+}
+ 
+.zoom-effect:hover .kotak img {
+  -webkit-transform: scale(8);
+  transform: scale(1.08);
+}
+
